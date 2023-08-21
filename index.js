@@ -8,6 +8,16 @@ async function main() {
 
     while (true) {
         const userInput = readlineSync.question(colors.yellow('You: '));
+
+        try {
+            // Call API with user input
+
+            if(userInput.toLowerCase() === 'exit'){
+                return;
+            }
+        } catch (error) {
+            console.error(colors.red(error))
+        }
     }
 }
 
