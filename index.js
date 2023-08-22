@@ -6,14 +6,23 @@ async function main() {
     console.log(colors.bold.green('Welcome to the Chatbot Program!'));
     console.log(colors.bold.green('You can start chatting with the bot.'));
 
+    // Store conversation history
+    const chatHistory = []; 
+
     while (true) {
         const userInput = readlineSync.question(colors.yellow('You: '));
 
         try {
+            // construct messages by iterating over the history
+            const messages = chatHistory.map(([role, content]) => ({ role, content }))
+
+            // Add latest user input
+            messages.push({ role: 'user', content: userInput })
+
             // Call API with user input
             const completion = await openai.createChatCompletion({
                 model: 'gpt-3.5-turbo',
-                messages: [{ role: 'user', content: userInput }]
+                messages: messages,
             })
 
             // Get completion text/content
